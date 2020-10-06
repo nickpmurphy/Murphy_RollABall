@@ -68,9 +68,14 @@ public class PlayerController : MonoBehaviour
 						SetCountText();
 
         }
+
+				// same as above, checking tag of object collision
 				if(other.gameObject.CompareTag("Dead"))
 				{
+					// delete cube
 					other.gameObject.SetActive(false);
+
+						// display losing text
 						loseTextObject.SetActive(true);
 
 
