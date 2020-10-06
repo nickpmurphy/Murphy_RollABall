@@ -1,79 +1,65 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
-// Include the namespace required to use Unity UI and Input System
 using UnityEngine.InputSystem;
 using TMPro;
 
-public class PlayerControllerNew : MonoBehaviour {
 
-	// Create public variables for player speed, and for the Text UI game objects
-	public float speed;
-	public TextMeshProUGUI countText;
-	public GameObject winTextObject;
+public class PlayerController : MonoBehaviour
+{
+    public float speed = 0;
+		public TextMeshProUGUI countText;
+		public GameObject winTextObject;
 
-        private float movementX;
-        private float movementY;
+    private Rigidbody rb;
+		private int count;
+    private float movementX;
+    private float movementY;
 
-	private Rigidbody rb;
-	private int count;
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+				count = 0;
 
-	// At the start of the game..
-	void Start ()
-	{
-		// Assign the Rigidbody component to our private rb variable
-		rb = GetComponent<Rigidbody>();
+				SetCountText();
+				winTextObject.SetActive(false);
 
-		// Set the count to zero
-		count = 0;
 
-		SetCountText ();
+    }
 
-                // Set the text property of the Win Text UI to an empty string, making the 'You Win' (game over message) blank
-                winTextObject.SetActive(false);
-	}
+    private void OnMove(InputValue movementValue)
+    {
+        Vector2 movementVector = movementValue.Get<Vector2>();
 
-	void FixedUpdate ()
-	{
-		// Create a Vector3 variable, and assign X and Z to feature the horizontal and vertical float variables above
-		Vector3 movement = new Vector3 (movementX, 0.0f, movementY);
+        movementX = movementVector.x;
+        movementY = movementVector.y;
+    }
 
-		rb.AddForce (movement * speed);
-	}
-
-	void OnTriggerEnter(Collider other)
-	{
-		// ..and if the GameObject you intersect has the tag 'Pick Up' assigned to it..
-		if (other.gameObject.CompareTag ("Pick Up"))
+		void SetCountText()
 		{
-			other.gameObject.SetActive (false);
-
-			// Add one to the score variable 'count'
-			count = count + 1;
-
-			// Run the 'SetCountText()' function (see below)
-			SetCountText ();
+			countText.text = "Count: " + count.ToString();
+			if(count >= 12) {
+				winTextObject.SetActive(true);
+			}
 		}
-	}
 
-        void OnMove(InputValue value)
+    private void FixedUpdate()
+    {
+        Vector3 movement = new Vector3(movementX, 0.0f, movementY);
+
+        rb.AddForce(movement * speed);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("PickUp"))
         {
-        	Vector2 v = value.Get<Vector2>();
+            other.gameObject.SetActive(false);
+						count = count +1;
 
-        	movementX = v.x;
-        	movementY = v.y;
+						SetCountText();
+
         }
-
-        void SetCountText()
-	{
-		countText.text = "Count: " + count.ToString();
-
-		if (count >= 12)
-		{
-                    // Set the text value of your 'winText'
-                    winTextObject.SetActive(true);
-		}
-	}
+    }
 }
