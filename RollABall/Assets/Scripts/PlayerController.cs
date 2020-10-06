@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 
 
+
 public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
@@ -17,6 +18,8 @@ public class PlayerController : MonoBehaviour
 		private int count;
     private float movementX;
     private float movementY;
+
+		private float elapsed;
 
 
     // Start is called before the first frame update
@@ -58,8 +61,11 @@ public class PlayerController : MonoBehaviour
 
 		void Update() {
 
-			var elapsed = Time.deltaTime;
-			timeCountText.text = "Time elapsed: " + elapsed.ToString();
+			// variable to store time
+			elapsed += Time.deltaTime;
+
+			// assigning timeCount object
+			timeCountText.text = "Time elapsed: " + Mathf.FloorToInt(elapsed).ToString();
 
 		}
 
