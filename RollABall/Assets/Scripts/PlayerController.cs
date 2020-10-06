@@ -10,20 +10,25 @@ public class PlayerController : MonoBehaviour
     public float speed = 0;
 		public TextMeshProUGUI countText;
 		public GameObject winTextObject;
+		public GameObject loseTextObject;
 
     private Rigidbody rb;
 		private int count;
     private float movementX;
     private float movementY;
 
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+
 				count = 0;
 
 				SetCountText();
 				winTextObject.SetActive(false);
+				loseTextObject.SetActive(false);
 
 
     }
@@ -51,6 +56,8 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement * speed);
     }
 
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("PickUp"))
@@ -61,5 +68,12 @@ public class PlayerController : MonoBehaviour
 						SetCountText();
 
         }
+				if(other.gameObject.CompareTag("Dead"))
+				{
+					other.gameObject.SetActive(false);
+						loseTextObject.SetActive(true);
+
+
+				}
     }
 }
