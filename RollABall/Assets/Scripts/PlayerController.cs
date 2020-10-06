@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
 
 		private float elapsed;
 
+		public float jumpPower;
+		bool onGround = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +61,6 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement * speed);
     }
 
-
 		void Update() {
 
 			// variable to store time
@@ -67,6 +69,17 @@ public class PlayerController : MonoBehaviour
 			// assigning timeCount object
 			timeCountText.text = "Time elapsed: " + Mathf.FloorToInt(elapsed).ToString();
 
+			onGround = Physics.Raycast(transform.position, Vector3.down, .51f);
+
+		}
+
+		void OnJump() {
+			Jump();
+		}
+
+		void Jump() {
+			if(onGround)
+				rb.AddForce(Vector3.up * jumpPower);
 		}
 
     private void OnTriggerEnter(Collider other)
