@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
 		private float elapsed;
 
 		public float jumpPower;
+
+		// bool to check if player is on the ground or not
 		bool onGround = false;
 
 
@@ -51,6 +53,7 @@ public class PlayerController : MonoBehaviour
 			countText.text = "Count: " + count.ToString();
 			if(count >= 12) {
 				winTextObject.SetActive(true);
+				loseTextObject.SetActive(false);
 			}
 		}
 
@@ -69,6 +72,7 @@ public class PlayerController : MonoBehaviour
 			// assigning timeCount object
 			timeCountText.text = "Time elapsed: " + Mathf.FloorToInt(elapsed).ToString();
 
+			// variable updating every frame to update bool if on ground or not
 			onGround = Physics.Raycast(transform.position, Vector3.down, .51f);
 
 		}
@@ -78,7 +82,11 @@ public class PlayerController : MonoBehaviour
 		}
 
 		void Jump() {
+
+			// checks to make sure player is not already in the air before jumping again
 			if(onGround)
+
+				// apply force to player to "jump"
 				rb.AddForce(Vector3.up * jumpPower);
 		}
 
@@ -101,6 +109,7 @@ public class PlayerController : MonoBehaviour
 
 						// display losing text
 						loseTextObject.SetActive(true);
+						winTextObject.SetActive(false);
 
 
 				}
