@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
 		public TextMeshProUGUI countText;
 		public GameObject winTextObject;
 		public GameObject loseTextObject;
+		public TextMeshProUGUI timeCountText;
 
     private Rigidbody rb;
 		private int count;
@@ -22,14 +23,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-
-
 				count = 0;
 
 				SetCountText();
 				winTextObject.SetActive(false);
 				loseTextObject.SetActive(false);
-
 
     }
 
@@ -43,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
 		void SetCountText()
 		{
+
 			countText.text = "Count: " + count.ToString();
 			if(count >= 12) {
 				winTextObject.SetActive(true);
@@ -57,6 +56,12 @@ public class PlayerController : MonoBehaviour
     }
 
 
+		void Update() {
+
+			var elapsed = Time.deltaTime;
+			timeCountText.text = "Time elapsed: " + elapsed.ToString();
+
+		}
 
     private void OnTriggerEnter(Collider other)
     {
