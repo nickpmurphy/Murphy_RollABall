@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
 		private float elapsed;
 
+		// how much force jump has
 		public float jumpPower;
 
 		// bool to check if player is on the ground or not
@@ -85,9 +86,11 @@ public class PlayerController : MonoBehaviour
 
 			// checks to make sure player is not already in the air before jumping again
 			if(onGround)
-
+			{
 				// apply force to player to "jump"
 				rb.AddForce(Vector3.up * jumpPower);
+			}
+
 		}
 
     private void OnTriggerEnter(Collider other)
